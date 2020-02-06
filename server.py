@@ -42,6 +42,8 @@ def register_process():
         db.session.add(new_user)
         db.session.commit()
 
+
+
     return redirect("/")
 
 
@@ -64,16 +66,20 @@ def user_login():
     password = request.form.get('password')
 
     user_email = User.query.filter_by(email=email).first()
-    user_password = User.query.filter_by(password=password).first()
+    # user_password = User.query.filter_by(password=password).first()
 
     if user_email is None:
-
-        return redirect("/register")
+        flash('NONe')
+        return redirect("/login")
     
     else:
-        if user_password == password:
-
+        if user_email.password == password:
+            flash('LOGGED IN!!!')
             return redirect("/")
+        else:
+            flash('WRONG PASSWORD!!!')
+            return redirect('/login')
+
 
 @app.route('/')
 def index():
